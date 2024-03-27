@@ -1,6 +1,7 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.entity.Member;
+import jpabook.jpashop.service.MemberService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -17,6 +18,9 @@ public class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    MemberService memberService;
+
     @Test
     @Transactional
     @Rollback(false)
@@ -26,8 +30,8 @@ public class MemberRepositoryTest {
         member.setUserName("memberA");
 
         //when
-        Long savedId = memberRepository.save(member);
-        Member findMember = memberRepository.find(savedId);
+        Long savedId = memberService.join(member);
+        Member findMember = memberRepository.findOne(savedId);
 
         //then
         Assertions.assertEquals(findMember.getId(), member.getId());
